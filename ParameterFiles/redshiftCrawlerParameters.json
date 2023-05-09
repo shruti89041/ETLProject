@@ -1,0 +1,10 @@
+{
+  "Parameters" : {
+    "CFNCrawlerName" : "demoCrawlerRedshift",
+    "CFNDatabaseName" : "demoRedshiftDB",
+    "CFNTablePrefixName" : "cfnTable",
+    "CFNConnectionName" : "demoRedshiftConnection", 
+    "CFNJDBCPath" : " ",
+    "CFNPath" : " "
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "Parameters" : {
+    "Connectivitytype" : "public",
+    "CFNSubnet" : "subnet-84f326ee"
+  }
+}

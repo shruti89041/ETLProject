@@ -1,0 +1,66 @@
+AWSTemplateFormatVersion: 2010-09-09
+Parameters:
+  CFNCrawlerName:
+    Type: String
+    Default: cfn-crawler-jdbc-flights-1
+  CFNDatabaseName:
+    Type: String
+    Default: cfn-database-jdbc-flights-1
+  CFNTablePrefixName:
+    Type: String
+    Default: cfn_jdbc_1_
+  CFNConnectionName:
+    Type: String
+    Default: cfn-connection-mysql-flights-1
+  CFNJDBCPath:
+    Type: String
+    Default: saldev/%
+  CFNPath:
+    Type: String
+    Default: dev/public/%
+Resources:
+  CFNRoleFlights:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - glue.amazonaws.com
+            Action:
+              - 'sts:AssumeRole'
+      Path: /
+      Policies:
+        - PolicyName: root
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action: '*'
+                Resource: '*'
+  CFNDatabaseFlights:
+    Type: 'AWS::Glue::Database'
+    Properties:
+      CatalogId: !Ref 'AWS::AccountId'
+      DatabaseInput:
+        Name: !Ref CFNDatabaseName
+        Description: AWS Glue container to hold metadata tables for the flights crawler
+  CFNCrawlerFlights:
+    Type: 'AWS::Glue::Crawler'
+    Properties:
+      Name: !Ref CFNCrawlerName
+      Role: !GetAtt 
+        - CFNRoleFlights
+        - Arn
+      Description: AWS Glue crawler to crawl flights data
+      DatabaseName: !Ref CFNDatabaseName
+      Targets:
+        JdbcTargets:
+          - ConnectionName: !Ref CFNConnectionName
+            Path: !Ref CFNPath
+      TablePrefix: !Ref CFNTablePrefixName
+      SchemaChangePolicy:
+        UpdateBehavior: UPDATE_IN_DATABASE
+        DeleteBehavior: LOG

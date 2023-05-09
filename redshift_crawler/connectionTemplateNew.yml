@@ -1,0 +1,53 @@
+---
+AWSTemplateFormatVersion: '2010-09-09'
+# Sample CFN YAML to demonstrate creating a connection
+#
+# Parameters section contains names that are substituted in the Resources section
+# These parameters are the names the resources created in the Data Catalog
+Parameters:                                                                                                       
+# The name of the connection to be created
+  CFNConnectionName:  
+    Type: String
+    Default: cfn-connection-mysql-flights-1
+  CFNJDBCString:  
+    Type: String
+    Default: "jdbc:mysql://xxx-mysql.yyyyyyyyyyyyyy.us-east-1.rds.amazonaws.com:3306/devdb"
+  CFNJDBCUser:  
+    Type: String
+    Default: "master"
+  CFNJDBCPassword:  
+    Type: String
+    Default: "12345678"
+    NoEcho: true
+  CFNSecurityGroupID:
+    Type: String
+    Default: "sg-7d52b812"
+  CFNAvailabilityZone:
+    Type: String
+    Default: "us-east-1d"
+  CFNSubnet:
+    Type: String
+    Default: "subnet-84f326ee"
+#
+#
+# Resources section defines metadata for the Data Catalog
+Resources:
+  CFNConnectionMySQL:
+    Type: AWS::Glue::Connection
+    Properties:
+      CatalogId: !Ref AWS::AccountId
+      ConnectionInput: 
+        Description: "Connect to MySQL database."
+        ConnectionType: "JDBC"
+        #MatchCriteria: none		
+        PhysicalConnectionRequirements:
+          AvailabilityZone: !Ref CFNAvailabilityZone
+          SecurityGroupIdList: 
+           - !Ref CFNSecurityGroupID
+          SubnetId: !Ref CFNSubnet 
+        ConnectionProperties: {
+          "JDBC_CONNECTION_URL": !Ref CFNJDBCString,
+          "USERNAME": !Ref CFNJDBCUser,
+          "PASSWORD": !Ref CFNJDBCPassword
+        }
+        Name: !Ref CFNConnectionName

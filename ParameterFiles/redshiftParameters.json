@@ -1,0 +1,18 @@
+{
+  "Parameters" : {
+    "DatabaseName" : "dev",
+    "ClusterType" : "single-node",
+    "NumberOfNodes" : "1",
+    "NodeType" : "dc2.large",
+    "MasterUsername" : "awsuser",
+    "MasterUserPassword" : "QWEASDzx78",
+    "InboundTraffic" : "0.0.0.0/0",
+    "PortNumber" : "5439",
+    "SecurityGroup" : "sg-0f0009a913e3218aa",
+    "Availabilityzone" : "ap-south-1b"
+  }
+}
+    
+   
+  
+

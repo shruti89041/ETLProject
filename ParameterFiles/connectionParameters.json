@@ -1,0 +1,11 @@
+{
+  "Parameters" : {
+    "CFNConnectionName" : "cfn-connection-mysql-flights-1",
+    "CFNJDBCString" : "jdbc:mysql://xxx-mysql.yyyyyyyyyyyyyy.us-east-1.rds.amazonaws.com:3306/devdb",
+    "CFNJDBCUser" :  "master",
+    "CFNJDBCPassword" : "12345678",
+    "CFNSecurityGroupID" : "sg-7d52b812",
+    "CFNAvailabilityZone" : "us-east-1d",
+    "CFNSubnet" : "subnet-84f326ee"
+  }
+}

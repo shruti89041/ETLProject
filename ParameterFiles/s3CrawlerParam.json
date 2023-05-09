@@ -1,0 +1,9 @@
+{
+  "Parameters" : {
+    "CFNCrawlerName" : "demoCrawlerS3",
+    "CFNDatabaseName" : "S3DB",
+    "CFNTablePrefixName" : "cfn-table",
+    "CFNClassifierName" :  "csvclassify",
+    "CFNTargetPath" : "s3://s3demo-s3bucket-3nb4j5fmvfoh/csvdemo/"   
+  }
+}

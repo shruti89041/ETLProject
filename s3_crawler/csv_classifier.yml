@@ -1,0 +1,18 @@
+AWSTemplateFormatVersion: 2010-09-09
+Parameters:
+  CFNClassifierName:
+    Type: String
+    Default: cfn-classifier-json-one-column-1
+Resources:
+  CFNClassifier:
+    Type: 'AWS::Glue::Classifier'
+    Properties:
+      CsvClassifier:
+        AllowSingleColumn: true
+        ContainsHeader: PRESENT
+        Delimiter: ','
+        Header:
+          - id
+          - name
+        Name: csvclassify
+        QuoteSymbol: '"'

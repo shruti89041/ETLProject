@@ -1,0 +1,28 @@
+AWSTemplateFormatVersion: 2010-09-09
+
+Description: Necessary parameters and resources to create a VPC Endpoint
+
+Parameters:
+  VPCID:
+    Description: "Account VPC ID"
+    Type: String
+  ServiceName:
+    # After the provider account create a VPC Endpoint Service a ServiceName will be available (in details Tab), this should be used here.
+    Description: "Service Name destiantion"
+    Type: String
+  RouteTableID:
+    Type: String
+
+ 
+
+Resources:
+  
+  # Creation of the VPC Endpoint
+  VPCEndpoint:
+    Type: AWS::EC2::VPCEndpoint
+    Properties: 
+      ServiceName: !Ref ServiceName
+      VpcEndpointType: Gateway
+      VpcId: !Ref VPCID
+      RouteTableIds: 
+        - !Ref RouteTableID

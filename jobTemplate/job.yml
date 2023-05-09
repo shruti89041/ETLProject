@@ -1,0 +1,51 @@
+---
+AWSTemplateFormatVersion: '2010-09-09'
+# Sample CFN YAML to demonstrate creating a job using a MySQL JDBC DB with the flights data to an S3 file
+#
+# Parameters section contains names that are substituted in the Resources section
+# These parameters are the names the resources created in the Data Catalog
+Parameters:                                                                                                       
+# The name of the job to be created
+  CFNJobName:  
+    Type: String
+    Default: cfn-job-JDBC-to-S3-1
+# The name of the IAM role that the job assumes. It must have access to data, script, temporary directory
+  CFNIAMRoleName:  
+    Type: String
+    Default: AWSGlueServiceRoleGA
+# The S3 path where the script for this job is located
+  CFNScriptLocation:  
+    Type: String
+    Default: s3://aws-glue-scripts-123456789012-us-east-1/myid/sal-job-dec4a	
+# The name of the connection used for JDBC data source
+  CFNConnectionName:  
+    Type: String
+    Default: cfn-connection
+#
+#
+# Resources section defines metadata for the Data Catalog
+Resources:                                      
+# Create job to run script which accesses JDBC flights table via a connection and write to S3 file as parquet.
+# The script already exists and is called by this job	
+  CFNJob:
+    Type: AWS::Glue::Job   
+    Properties:
+      Role: !Ref CFNIAMRoleName  
+      #DefaultArguments: JSON object  
+      # For example, if required by script, set temporary directory as DefaultArguments={'--TempDir'; 's3://aws-glue-temporary-xyc/sal'}
+      Connections:
+        Connections:
+        - !Ref CFNConnectionName 
+      #MaxRetries: Double  
+      Description: Job created with CloudFormation using existing script
+      #LogUri: String  
+      Command:   
+        Name: glueetl  
+        ScriptLocation: !Ref CFNScriptLocation
+             # for access to directories use proper IAM role with permission to buckets and folders that begin with "aws-glue-"					 
+             # if required, script defines temp directory as argument TempDir and used in script like redshift_tmp_dir = args["TempDir"] 
+             # script defines target for output as s3://aws-glue-target/sal    			 
+      AllocatedCapacity: 5  
+      ExecutionProperty:   
+        MaxConcurrentRuns: 1  
+      Name: !Ref CFNJobName
